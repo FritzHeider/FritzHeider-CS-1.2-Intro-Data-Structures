@@ -22,10 +22,8 @@ def new_sent(words_num):
             punc = [".", "?", "!", "...", "!?!?"]
             new_sentence += random.choice(punc)
 
-
     return new_sentence
-
-
+    
 print(new_sent(words_num))
 
 if __name__== "__main__":
