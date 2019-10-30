@@ -1,11 +1,12 @@
-import sys
+from sys import argv
 import random
 
 f = open("/usr/share/dict/words", "r")
 words_read = f.read()
 dictionary_list = words_read.split("\n")
 f.close()
-words_num = 4
+words_num = int(argv[1])
+
 
 # print(dictionary_list)
 
@@ -28,4 +29,4 @@ def new_sent(words_num):
 print(new_sent(words_num))
 
 if __name__== "__main__":
-    words_num = sys.argv[1:]
+    words_num = int(argv[1])
