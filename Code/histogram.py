@@ -17,7 +17,20 @@ def dict_hist(text_input):
     if "" in histo:
         histo.pop("")
     #print(histo)
+
     return histo
+
+def run(x):
+    """Description:
+    Parameters
+    -----------
+     x - str
+         blahh
+
+    Return
+    -------
+    new_string - str
+    """
 
 if __name__== "__main__":
     text_input = str(sys.argv[1:])
