@@ -2,25 +2,24 @@ from sys import argv
 import sys
 import re
 
-source_text = str(sys.argv[1:])
-#print(source_text)
+text_input = str(sys.argv[1:])
+#print(text_input)
 
-def dict_hist(source_text):
-    text_list = re.split('\W+', source_text)
-    histogram = dict()
+def dict_hist(text_input):
+    text_list = re.split('\W+', text_input)
+    histo = dict()
     for word in text_list:
-        if word.upper() in histogram:
-            histogram[word.upper()] += 1
+        if word.upper() in histo:
+            histo[word.upper()] += 1
         else:
-            histogram[word.upper()] = 1
+            histo[word.upper()] = 1
 
-    if "" in histogram:
-        histogram.pop("")
-    #print(histogram)
-    return histogram
-
+    if "" in histo:
+        histo.pop("")
+    #print(histo)
+    return histo
 
 if __name__== "__main__":
-    source_text = str(sys.argv[1:])
+    text_input = str(sys.argv[1:])
 
-print(dict_hist(source_text))
+print(dict_hist(text_input))
