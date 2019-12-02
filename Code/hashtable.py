@@ -100,7 +100,7 @@ class HashTable(object):
                 return
 
         bucket.append((key, value))
-        """Insert or update the given key with its associated value.
+        """Insert or update the given key with its ass*****ociated value.
         TODO: Running time: O(???) Why and under what conditions?"""
         # TODO: Find bucket where given key belongs
         # TODO: Check if key-value entry exists in bucket
@@ -143,7 +143,7 @@ def test_hash_table():
     print('length: {}'.format(ht.length()))
 
     # Enable this after implementing delete method
-    delete_implemented = False
+    delete_implemented = True
     if delete_implemented:
         print('\nTesting delete:')
         for key in ['I', 'V', 'X']:
