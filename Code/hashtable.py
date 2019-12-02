@@ -39,6 +39,11 @@ class HashTable(object):
         TODO: Running time: O(???) Why and under what conditions?"""
         # TODO: Loop through all buckets
         # TODO: Collect all values in each bucket
+        value_list = []
+        for bucket in self.buckets:
+            for _, value in bucket.items():
+                value_list.append(value)
+        return value_list
 
     def items(self):
         """Return a list of all items (key-value pairs) in this hash table.
@@ -91,7 +96,7 @@ class HashTable(object):
         bucket = self.buckets[self._bucket_index(key)]
         for key_point, key_value in bucket.items():
             if key == key_point:
-                bucket.replace((key_point, key_value), (key, value))
+                bucket.set((key_point, key_value), (key, value))
                 return
 
         bucket.append((key, value))
@@ -111,6 +116,12 @@ class HashTable(object):
         # TODO: If found, delete entry associated with given key
         # TODO: Otherwise, raise error to tell user delete failed
         # Hint: raise KeyError('Key not found: {}'.format(key))
+        bucket = self.buckets[self._bucket_index(key)]
+        for key_point, key_value in bucket.items():
+            if key == key_point:
+                bucket.delete((key_point, key_value))
+                return
+        raise KeyError('Key not found: {}'.format(key))
 
 
 def test_hash_table():
