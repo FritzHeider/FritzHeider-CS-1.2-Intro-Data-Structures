@@ -1,4 +1,3 @@
-#!python
 
 from listogram import Listogram
 import unittest
@@ -46,6 +45,7 @@ class ListogramTest(unittest.TestCase):
         assert histogram.frequency('fish') == 4
         # Verify frequency count of unseen words
         assert histogram.frequency('food') == 0
+
     def test_add_count(self):
         histogram = Listogram(self.fish_words)
         # Add more words to update frequency counts
@@ -79,29 +79,11 @@ class ListogramTest(unittest.TestCase):
         histogram = Listogram(self.fish_words)
         # Verify count of distinct word types
         assert len(set(self.fish_words)) == 5
-        #assert histogram.types == 5
+        assert histogram.types == 5
         # Adding words again should not change count of distinct word types
         for word in self.fish_words:
             histogram.add_count(word)
-    #    assert histogram.types == 5
-
-    def test_sample(self):
-        histogram = Listogram(self.fish_words)
-        # Create a list of 10,000 word samples from histogram
-        samples_list = [histogram.sample() for _ in range(10000)]
-        # Create a histogram to count frequency of each word
-        samples_hist = Listogram(samples_list)
-        # Check each word in original histogram
-        for word, count in histogram:
-            # Calculate word's observed frequency
-            observed_freq = count / histogram.tokens
-            # Calculate word's sampled frequency
-            samples = samples_hist.frequency(word)
-            sampled_freq = samples / samples_hist.tokens
-            # Verify word's sampled frequency is close to observed frequency
-            lower_bound = observed_freq * 0.9  # 10% below = 90% = 0.9
-            upper_bound = observed_freq * 1.1  # 10% above = 110% = 1.1
-            assert lower_bound <= sampled_freq <= upper_bound
+        assert histogram.types == 5
 
 
 if __name__ == '__main__':

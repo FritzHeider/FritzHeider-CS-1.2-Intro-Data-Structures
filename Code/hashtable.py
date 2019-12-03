@@ -96,7 +96,7 @@ class HashTable(object):
         bucket = self.buckets[self._bucket_index(key)]
         for key_point, key_value in bucket.items():
             if key == key_point:
-                bucket.set((key_point, key_value), (key, value))
+                bucket.replace((key_point, key_value), (key, value))
                 return
 
         bucket.append((key, value))
