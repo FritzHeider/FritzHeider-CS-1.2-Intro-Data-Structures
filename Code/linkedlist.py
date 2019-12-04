@@ -1,6 +1,3 @@
-#!python
-
-
 class Node(object):
 
     def __init__(self, data):
@@ -12,14 +9,13 @@ class Node(object):
         """Return a string representation of this node."""
         return 'Node({!r})'.format(self.data)
 
-
 class LinkedList(object):
 
     def __init__(self, items=None):
         """Initialize this linked list and append the given items, if any."""
-        self.head = None  # First node
-        self.tail = None  # Last node
-
+        self.head = None
+        self.tail = None
+        self.count = 0
         if items is not None:
             for item in items:
                 self.append(item)
@@ -37,13 +33,10 @@ class LinkedList(object):
         """Return a list (dynamic array) of all items in this linked list.
         Best and worst case running time: O(n) for n items in the list (length)
         because we always need to loop through all n nodes to get each item."""
-        items = []  # O(1) time to create empty list
-        #starting at head node
-        node = self.head  # O(1) time to assign new variable
-        #While loop untill node is none,
-        while node is not None:  #avoid early return
+        items = []
+        node = self.head
+        while node is not None:
             items.append(node.data)
-            # append it and move on
             node = node.next
         return items
 
@@ -51,115 +44,104 @@ class LinkedList(object):
         """Return a boolean indicating whether this linked list is empty."""
         return self.head is None
 
-    def length(self):
+    def count_length(self):
         """Return the length of this linked list by traversing its nodes.
-        Best and worst case running time: O(n) for n items in the list (length)
-        because we always need to loop through all n nodes to get each item."""
-        num_nodes = 0
-        pointer = self.head
+        Running time: O(n) because we traverse through all nodes."""
+        count = 0
+        targ_node = self.head
+        while targ_node is not None:
+            count += 1
+            targ_node = targ_node.next
 
-        if self.head == None:
-            return 0
-        #Loop as long as there are more in list
-        num_nodes = 1
-        while pointer.next is not None:
-        #keep adding to iterate
-            pointer = pointer.next
-            num_nodes += 1
+        return count
 
-
-
-        print(num_nodes)
-        return num_nodes
+    def length(self):
+        """ Return count for the length of the linked list."""
+        return self.count
 
     def append(self, item):
         """Insert the given item at the tail of this linked list.
-        Running time: O(n) for n items in the list (length)
-        because we always need to loop through all n nodes to get each item."""
-        #create node if needed
-        if self.head == None:
-            my_node = Node(item)
-            self.head = my_node
-            self.tail = my_node
+         Running time: O(1) under any circumstances because you add new node after the tail."""
 
-        elif self.head != None:
-            pointer = self.tail
-            #Was long as there are more nodes
-            #append the node to where we are at
-            my_node = Node(item)
-            pointer.next = my_node
-            self.tail = my_node
+        next_node = Node(item)
+        if self.head is None:
+            self.head = next_node
+            self.tail = next_node
+        else:
+            targ_node = self.tail
+            targ_node.next = next_node
+            self.tail = targ_node.next
+
+        self.count += 1
 
     def prepend(self, item):
         """Insert the given item at the head of this linked list.
-        Running time: O(1) because in each case there is only one thing to check
-        and therefore to iterate over"""
-        # create a new node
-        if self.head == None:
-            my_node = Node(item)
-            self.head = my_node
-            self.tail = my_node
+         Running time: O(1) because you add new item at the beginning of the list"""
+         
+        next_node = Node(item)
+        if self.head is None:
+            self.head = next_node
+            self.tail = next_node
+        else:
+            next_node.next = self.head
+            self.head = next_node
 
-        # Prepend node before head, if it exists
-        elif self.head != None:
-            my_node = Node(item)
-            og_head = self.head
-            self.head = my_node
-            self.head.next = og_head
+        self.count += 1
 
     def find(self, quality):
         """Return an item from this linked list satisfying the given quality.
-        Best case running time: O(1) If there is no head, then there is only one
-        thing to check and iterate over.
-        Worst case running time: O(n) for n items in the list (length)
-        because we always need to loop through all n nodes to get each item."""
+         Best case running time: O(1) when first item satisfies the given quality
+         Worst case running time: O(n) because you have to traverse through all nodes when the last item satisfiesthe given quality or there is no item"""
 
-        if self.head == None:
-            return NotImplemented
-
-        if self.head != None:
-            pointer = self.head
-            #Loop through everything
-            while pointer != None:
-                if (quality(pointer.data)):
-                    return pointer.data
-                pointer = pointer.next
+        targ_node = self.head
+        while targ_node is not None:
+            if quality(targ_node.data):
+                return targ_node.data
+            targ_node = targ_node.next
+        return None
 
     def delete(self, item):
         """Delete the given item from this linked list, or raise ValueError.
-        Best case running time: O(1) because in the best case scenario, there are
-        no nodes and therefore only one task has to be executed
-        Worst case running time: O(n^2) because in all other scenarios there are many
-        items that need to be iterated over in a few diffrent loops"""
+         Best case running time: O(1) when given item is equal to the head.
+         Worst case running time: O(n) when given item is equal to the tail or there is no item in list"""
 
-        if self.length() == 0:
+        first_len = self.length()
+        targ_node = self.head
+        last_node = None
+        while targ_node is not None:
+            if targ_node.data == item:
+                self.count -= 1
+                if last_node is not None:
+                    last_node.next = targ_node.next
+                    if self.tail.data == item:
+                        self.tail = last_node
+
+                else:
+
+                    if targ_node.next is None:
+                        self.tail = None
+                        self.head = None
+                        break
+
+                    else:
+                        self.head = targ_node.next
+                        targ_node = self.head
+            last_node = targ_node
+            targ_node = targ_node.next
+
+        new_len = self.length()
+        if first_len == new_len:
             raise ValueError('Item not found: {}'.format(item))
 
-        pointer = self.head
-        saved_previous = None
+    def replace(self, item, new_item):
+        """Replace the given item from the linked list with a new item."""
+        node = self.head
+        while node is not None:
+            if node.data == item:
+                node.data = new_item
+                return
 
-        #WHile no nodes
-        while pointer != None:
-                #if we find we are on it
-            if pointer.data == item:
-                if pointer.next != None:
-                    if saved_previous != None:
-                        saved_previous.next = pointer.next
-                    if saved_previous == None:
-                        self.head = pointer.next
-                    pointer.next = None
-                    return
-                if pointer.next == None:
-                    if saved_previous != None:
-                        saved_previous.next = None
-                        self.tail = saved_previous
-                    if saved_previous == None:
-                        self.head = None
-                        self.tail = None
-                    return
-            saved_previous = pointer
-            pointer = pointer.next
-        raise ValueError('Item not found: {}'.format(item))
+            node = node.next
 
 def test_linked_list():
     ll = LinkedList()
@@ -171,23 +153,13 @@ def test_linked_list():
         ll.append(item)
         print('list: {}'.format(ll))
 
-        print('\nTesting prepend:')
-    for item in ['A', 'B', 'C']:
-        print('prepend({!r})'.format(item))
-        ll.prepend(item)
-        print('list: {}'.format(ll))
-
-    print('length: {}'.format(ll.length()))
-
-    print(ll.find ('a'))
-
     print('head: {}'.format(ll.head))
     print('tail: {}'.format(ll.tail))
     print('length: {}'.format(ll.length()))
 
     # Enable this after implementing delete method
-    after_del = True
-    if after_del:
+    delete_implemented = True
+    if delete_implemented:
         print('\nTesting delete:')
         for item in ['B', 'C', 'A']:
             print('delete({!r})'.format(item))
@@ -197,6 +169,7 @@ def test_linked_list():
         print('head: {}'.format(ll.head))
         print('tail: {}'.format(ll.tail))
         print('length: {}'.format(ll.length()))
+
 
 if __name__ == '__main__':
     test_linked_list()

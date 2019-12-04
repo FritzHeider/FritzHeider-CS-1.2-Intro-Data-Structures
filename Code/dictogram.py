@@ -6,15 +6,13 @@ import random
 class Dictogram(dict):
     """Dictogram is a histogram implemented as a subclass of the dict type."""
 
-    def __init__(self, word_list=None):
+    def __init__(self, words_list=None):
         """Initialize this histogram as a new dict and count given words."""
-        super(Dictogram, self).__init__()  # Initialize this as a new dict
-        # Add properties to track useful word counts for this histogram
-        self.types = 0  # Count of distinct word types in this histogram
-        self.tokens = 0  # Total count of all word tokens in this histogram
-        # Count words in given list, if any
-        if word_list is not None:
-            for word in word_list:
+        super(Dictogram, self).__init__()
+        self.types = 0
+        self.tokens = 0  
+        if words_list is not None:
+            for word in words_list:
                 self.add_count(word)
 
     def add_count(self, word, count=1):
@@ -47,15 +45,15 @@ class Dictogram(dict):
             if sample_sum > sample_index:
                 return word
 
-def print_histogram(word_list):
+def print_histogram(words_list):
     print()
     print('Histogram:')
-    print('word list: {}'.format(word_list))
+    print('word list: {}'.format(words_list))
     # Create a dictogram and display its contents
-    histogram = Dictogram(word_list)
+    histogram = Dictogram(words_list)
     print('dictogram: {}'.format(histogram))
     print('{} tokens, {} types'.format(histogram.tokens, histogram.types))
-    for word in word_list[-2:]:
+    for word in words_list[-2:]:
         freq = histogram.frequency(word)
         print('{!r} occurs {} times'.format(word, freq))
     print()

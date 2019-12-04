@@ -23,7 +23,14 @@ def new_sent(words_num):
             new_sentence += random.choice(punc)
 
     return new_sentence
-    
+
+def open_file(file_name):
+    file = open(file_name, 'r')
+    words = file.read().split()
+    file.close()
+
+    return words
+
 print(new_sent(words_num))
 
 if __name__== "__main__":
