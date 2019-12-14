@@ -10,7 +10,7 @@ class Dictogram(dict):
         """Initialize this histogram as a new dict and count given words."""
         super(Dictogram, self).__init__()
         self.types = 0
-        self.tokens = 0  
+        self.tokens = 0
         if words_list is not None:
             for word in words_list:
                 self.add_count(word)

@@ -20,7 +20,7 @@ def first_order():
 	for i in range(4):
 		word = markov[word].sample()
 		sentence += " " + word
-	return print(sentence)
+	# return print(sentence)
 
 
 def second_order():
@@ -34,8 +34,6 @@ def second_order():
 			markov[(first_word, middle_word)] = Dictogram([last_word])
 		else:
 			markov[(first_word, middle_word)].add_count(last_word)
-	return markov
-
 
 def get_tuples(word):
 	markov = second_order()
@@ -45,7 +43,6 @@ def get_tuples(word):
 		if word == each_tuple[0]:
 			all_tuples.append(each_tuple)
 
-	return all_tuples
 
 
 def generate_sentence():
@@ -54,6 +51,3 @@ def generate_sentence():
 	sentence = " " + word
 	for i in range(7):
 		pair_choice = choice(get_tuples(word))
-		sentence += ' ' + pair_choice[1]
-		word = pair_choice[1]
-	return sentence
